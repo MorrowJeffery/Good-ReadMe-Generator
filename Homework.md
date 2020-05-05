@@ -10,16 +10,16 @@ The user will be prompted for their GitHub username, which will be used to make 
 
 The README will be populated with the following:
 
-* At least one badge
-* Project title
-* Description
+* At least one badge 
+* Project title X
+* Description X
 * Table of Contents
-* Installation
-* Usage
-* License
-* Contributing
-* Tests
-* Questions
+* Installation X
+* Usage X
+* License X
+* Contributing X
+* Tests X
+* Questions X
   * User GitHub profile picture
   * User GitHub email
 

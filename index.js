@@ -1,6 +1,7 @@
 const axios = require("axios");
 const inquirer = require("inquirer");
 const fs = require("fs");
+const getLicenense = require("./license.js")
 
 function getQuestions() {
     
@@ -26,18 +27,63 @@ function getQuestions() {
         message: "What type of license do you want for your project?",
         name: "projLic",
         choices: ["MIT", "GNU GPUv3","Apache 2.0"]
+    },
+    {
+        message: "Instalation Instructions?",
+        name: "projInstruct"
+    },
+    {
+        message: "Who are the contributors?",
+        name: "projContribute"
+    },
+    {
+        message: "Tests to run?",
+        name:"projTests"
+    },
+    {
+        message: "What should users do with questions?",
+        name: "projQuestions"
     }
 ])
+.then (answers=> {
+    compileInfo(answers);
+})
 };
 
 function writeToFile(fileName, data) {
 }
 
-function init() {
-    getQuestions();
+function compileInfo(answerObj) {
+    axios.get(`https://api.github.com/users/${answerObj.gitUserName}`)
+    .then  (function(response) {
+        //console.log(response);
+        var readMe = "";
+        var personImage = `<img src = '${response.data.avatar_url}' height="42" width="42"> <br>`;
+        var projTitle = `<h1>${answerObj.projTitle}</h1> <br>`;
+        var desc = `<h3>Description:</h3> <br> ${answerObj.projDesc}`;
+        var Initi = `<h3>Instilation: </h3> <br> ${answerObj.projInstruct}`;
+        var use = `<h3>Uses: </h3> <br>${answerObj.projUsage}`
+        var licen = `<h3>License:</h3> <br> ${getLicenense.get(answerObj.projLic, response.data.name)}`;
+        var contri = `<h3>Contributors:</h3> <br> ${answerObj.projContribute}`;
+        var tests = `<h3>Tests:</h3> <br> ${answerObj.projTests}`;
+        var questions = `<h3>Questions?</h3> <br> ${answerObj.projQuestions}`
+
+        readMe += personImage + projTitle + desc + Initi + use + contri + tests + questions +  `<h3>Email: </h3> <br> ${response.data.email}` + licen;
+
+
+
+        fs.writeFile("GeneratedREADME.md", readMe, err => {
+            console.log("README Created Successfully as 'GeneratedREADME'");
+            if (err) {
+                throw err;
+        }
+    })
+    }
+    )
 }
 
-init();
+//getQuestions();
+getQuestions();
 
 
 
