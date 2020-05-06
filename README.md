@@ -4,4 +4,4 @@ This is a ReadMe Generator that will generate an acceptable ReadMe based on info
 
 CLI in action:
 
- ![alt-text](link)
+ ![alt-text](GoodReadmeProj.gif)
